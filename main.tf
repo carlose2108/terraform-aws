@@ -1,3 +1,16 @@
+#https://www.linkedin.com/pulse/terraform-state-remote-storage-s3-locking-dynamodb-oramu-/
+terraform {
+  required_version = ">= 0.13"
+  backend "s3" {
+    bucket = "myapp-bucket-test-carlos"
+    key    = "myapp/state.tfstate"
+    region = "us-east-1"
+    encrypt = true
+    dynamodb_table = "terraform-state-locking" # this is to lock the state file, create a DB table and Partion Key is "LockID"
+  }
+  
+}
+
 resource "aws_vpc" "myapp-vpc" {
   cidr_block = var.vpc_cidr_block
   tags = {
